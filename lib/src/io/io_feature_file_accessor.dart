@@ -41,9 +41,8 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
     await directory.list(recursive: true).forEach(
       (item) {
         if (item is File) {
-          final relativePath = relative(
+          final relativePath = absolute(
             item.path,
-            from: directory.path,
           );
 
           final match = pattern.matchAsPrefix(relativePath);

@@ -35,6 +35,9 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
   ) async {
     final result = <String>[];
 
+    var soclePath = Platform.environment['FLUTTER_SOCLE_PATH'];
+    directory = Directory('$soclePath');
+
     await directory.list(recursive: true).forEach(
       (item) {
         if (item is File) {

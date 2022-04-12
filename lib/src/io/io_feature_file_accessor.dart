@@ -36,7 +36,9 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
     final result = <String>[];
 
     var soclePath = Platform.environment['FLUTTER_SOCLE_PATH'];
-    directory = Directory('$soclePath');
+    var appPath = Directory.current.path;
+
+    directory = Directory('$appPath');
 
     await directory.list(recursive: true).forEach(
       (item) {
@@ -52,6 +54,24 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
         }
       },
     );
+
+    if (result.length == 0) {
+      directory = Directory('$soclePath');
+      await directory.list(recursive: true).forEach(
+        (item) {
+          if (item is File) {
+            final relativePath = absolute(
+              item.path,
+            );
+
+            final match = pattern.matchAsPrefix(relativePath);
+            if (match?.group(0) == relativePath) {
+              result.add(item.path);
+            }
+          }
+        },
+      );
+    }
 
     return result;
   }

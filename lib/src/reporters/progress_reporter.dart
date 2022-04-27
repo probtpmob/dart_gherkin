@@ -14,6 +14,7 @@ class ProgressReporter extends StdoutReporter {
 
   @override
   Future<void> onScenarioFinished(ScenarioFinishedMessage message) async {
+    print(message.passed ? StdoutReporter.PASS_COLOR : StdoutReporter.FAIL_COLOR);
     printMessageLine(
       "${message.passed ? 'PASSED' : 'FAILED'}: Scenario ${_getNameAndContext(message.name, message.context)}",
       message.passed ? StdoutReporter.PASS_COLOR : StdoutReporter.FAIL_COLOR,
@@ -22,6 +23,7 @@ class ProgressReporter extends StdoutReporter {
 
   @override
   Future<void> onStepFinished(StepFinishedMessage message) async {
+    print(_getMessageColour(message.result.result));
     printMessageLine(
       [
         '  ',
